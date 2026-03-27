@@ -1,8 +1,11 @@
 {
   "name": "learn-express-ts",
   "version": "1.0.0",
-  "main": "index.js",
-  "license": "MIT",
+  "main": "src/app.ts",
+  "scripts": {
+    "compile": "tsc && node ./build/src/app.js",
+    "start": "nodemon -e ts --exec \"yarn compile\""
+  },
   "dependencies": {
     "cookie-parser": "^1.4.7",
     "dotenv": "^17.3.1",
@@ -17,6 +20,8 @@
     "@types/express-session": "^1.18.2",
     "@types/morgan": "^1.9.10",
     "@types/node": "^25.5.0",
+    "@types/nodemon": "^3.1.1",
+    "nodemon": "^3.1.14",
     "typescript": "^6.0.2"
   }
 }
