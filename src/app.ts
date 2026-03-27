@@ -6,6 +6,8 @@ import session from "express-session";
 import morgan from "morgan";
 import path from "path";
 
+import todoRouter from "./routes/todo";
+
 dotenv.config();
 const app = express();
 app.set("port", process.env.PORT || 3000);
@@ -27,6 +29,8 @@ app.use(
     name: "session-cookie",
   }),
 );
+
+app.use("/todo", todoRouter);
 
 app.use((req: Request, res: Response, next: NextFunction) => {
   console.log("모든 요청에 다 실행됩니다.");
