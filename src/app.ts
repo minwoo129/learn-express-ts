@@ -1,11 +1,40 @@
-import express from "express";
+import { NextFunction } from "connect";
+import cookieParser from "cookie-parser";
+import dotenv from "dotenv";
+import express, { Request, Response } from "express";
+import session from "express-session";
+import morgan from "morgan";
+import path from "path";
 
+dotenv.config();
 const app = express();
-
 app.set("port", process.env.PORT || 3000);
 
-app.get("/", (req, res) => {
-  res.send("Hello World");
+app.use(morgan("dev"));
+app.use("/", express.static(path.join(__dirname, "public")));
+app.use(express.json());
+app.use(express.urlencoded({ extended: false }));
+app.use(cookieParser(process.env.COOKIE_SECRET));
+app.use(
+  session({
+    resave: false,
+    saveUninitialized: false,
+    secret: process.env.COOKIE_SECRET,
+    cookie: {
+      httpOnly: true,
+      secure: false,
+    },
+    name: "session-cookie",
+  }),
+);
+
+app.use((req: Request, res: Response, next: NextFunction) => {
+  console.log("모든 요청에 다 실행됩니다.");
+  next();
+});
+
+app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
+  res.status(500).json({ message: err.message });
 });
 
 app.listen(app.get("port"), () => {
