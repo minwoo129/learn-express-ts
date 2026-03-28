@@ -1,0 +1,14 @@
+services:
+  green:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: learn-express-ts-green
+    ports:
+      - "3003:3000"
+    env_file:
+      - .env
+    environment:
+      - PORT=3000
+      - VERSION=green
+    restart: unless-stopped

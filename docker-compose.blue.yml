@@ -1,0 +1,14 @@
+services:
+  blue:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: learn-express-ts-blue
+    ports:
+      - "3002:3000"
+    env_file:
+      - .env
+    environment:
+      - PORT=3000
+      - VERSION=blue
+    restart: unless-stopped
