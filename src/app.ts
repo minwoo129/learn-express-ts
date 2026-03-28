@@ -5,7 +5,10 @@ import express, { Request, Response } from "express";
 import session from "express-session";
 import morgan from "morgan";
 import path from "path";
+import swaggerJSdoc from "swagger-jsdoc";
+import swaggerUi from "swagger-ui-express";
 
+import swaggerJSDoc from "swagger-jsdoc";
 import todoRouter from "./routes/todo";
 
 dotenv.config();
@@ -30,7 +33,29 @@ app.use(
   }),
 );
 
+const optons: swaggerJSdoc.Options = {
+  definition: {
+    openapi: "3.0.0",
+    info: {
+      title: "LogRocket Express API with Swagger",
+      version: "0.1.0",
+      description:
+        "This is a simple CRUD API application made with Express and documented with Swagger",
+    },
+    servers: [
+      {
+        url: "http://localhost:3000/todo",
+      },
+    ],
+  },
+  apis: ["./src/routes/todo.ts"],
+};
+
+const specs = swaggerJSDoc(optons);
+
 app.use("/todo", todoRouter);
+
+app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(specs));
 
 app.use((req: Request, res: Response, next: NextFunction) => {
   console.log("모든 요청에 다 실행됩니다.");
