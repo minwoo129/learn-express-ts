@@ -5,10 +5,9 @@ import express, { Request, Response } from "express";
 import session from "express-session";
 import morgan from "morgan";
 import path from "path";
-import swaggerJSdoc from "swagger-jsdoc";
+import swaggerJSDoc, { type Options } from "swagger-jsdoc";
 import swaggerUi from "swagger-ui-express";
 
-import swaggerJSDoc from "swagger-jsdoc";
 import todoRouter from "./routes/todo";
 
 dotenv.config();
@@ -33,7 +32,7 @@ app.use(
   }),
 );
 
-const optons: swaggerJSdoc.Options = {
+const optons: Options = {
   definition: {
     openapi: "3.0.0",
     info: {
